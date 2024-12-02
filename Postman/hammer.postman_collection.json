@@ -1,0 +1,295 @@
+{
+	"info": {
+		"_postman_id": "f187c428-4663-475d-8daf-20cfd0bfdfc3",
+		"name": "hammer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33454848"
+	},
+	"item": [
+		{
+			"name": "Send Code (user 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"auth_code\", jsonData.auth_code);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var phoneNumber = '7' + Math.floor(100000000 + Math.random() * 900000000).toString();\r",
+							"pm.environment.set(\"phone_number\", phoneNumber);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"phone_number\": \"{{phone_number}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/send-code/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"send-code",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Code (user 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"token_2\", jsonData.token);\r",
+							"    pm.environment.set(\"invite_code_2\", jsonData.invite_code);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"phone_number\": \"{{phone_number}}\",\r\n  \"code\": \"{{auth_code}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/verify-code/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"verify-code",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Code (user 2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"auth_code_2\", jsonData.auth_code);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var phoneNumber = '7' + Math.floor(100000000 + Math.random() * 900000000).toString();\r",
+							"pm.environment.set(\"phone_number_2\", phoneNumber);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"phone_number\": \"{{phone_number_2}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/send-code/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"send-code",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Code (user 2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"token\", jsonData.token);\r",
+							"    pm.environment.set(\"invite_code\", jsonData.invite_code);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"phone_number\": \"{{phone_number_2}}\",\r\n  \"code\": \"{{auth_code_2}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/verify-code/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"verify-code",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Activate Invite User 1's Code  (user 2)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{token_2}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"invite_code\": \"{{invite_code}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/activate-invite/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"activate-invite",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Profile (user 1)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/profile/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"profile",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
