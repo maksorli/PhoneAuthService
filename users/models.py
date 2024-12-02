@@ -11,6 +11,11 @@ from django.db import models
 from django.utils import timezone
 
 
+def generate_invite_code():
+    chars = string.ascii_letters + string.digits
+    return "".join(random.choices(chars, k=6))
+
+
 class UserManager(BaseUserManager):
     def create_user(self, phone_number, password=None, **extra_fields):
         if not phone_number:
@@ -25,11 +30,6 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault("is_superuser", True)
 
         return self.create_user(phone_number, password, **extra_fields)
-
-
-def generate_invite_code():
-    chars = string.ascii_letters + string.digits
-    return "".join(random.choices(chars, k=6))
 
 
 class User(AbstractBaseUser, PermissionsMixin):
