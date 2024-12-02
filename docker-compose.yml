@@ -1,0 +1,44 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn phoneauthservice.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/app/static
+
+    expose:
+      - "8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "False"
+      DATABASE_URL: "postgres://postgres:postgres@db:5432/phoneauthservice"
+      ALLOWED_HOSTS: "localhost"
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+    volumes:
+      - static_volume:/static
+
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: phoneauthservice
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
+  static_volume:

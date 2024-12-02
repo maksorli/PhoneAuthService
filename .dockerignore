@@ -1,0 +1,29 @@
+ venv/
+.env/
+*.code-workspace
+*.sqlite3
+ __pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
+.coverage
+.cache
+.tox
+htmlcov/
+*.log
+
+ .git/
+.gitignore
+.svn/
+
+ docker-compose.yml
+Dockerfile
+
+ .idea/
+.vscode/
+*.swp
+*~
+
+ migrations/versions/*.pyc
+migrations/versions/*.py
