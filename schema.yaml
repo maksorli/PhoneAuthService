@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: Phone Auth Service API
+  version: 1.0.0
+  description: API для реферальной системы .
+paths:
+  /api/activate-invite/:
+    post:
+      operationId: activate_invite_create
+      tags:
+      - activate-invite
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InviteCode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/InviteCode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/InviteCode'
+        required: true
+      security:
+      - tokenAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InviteCode'
+          description: ''
+  /api/profile/:
+    get:
+      operationId: profile_retrieve
+      tags:
+      - profile
+      security:
+      - tokenAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+  /api/send-code/:
+    post:
+      operationId: send_code_create
+      tags:
+      - send-code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhoneNumber'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PhoneNumber'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PhoneNumber'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhoneNumber'
+          description: ''
+  /api/verify-code/:
+    post:
+      operationId: verify_code_create
+      tags:
+      - verify-code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Code'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Code'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Code'
+        required: true
+      security:
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Code'
+          description: ''
+components:
+  schemas:
+    Code:
+      type: object
+      properties:
+        phone_number:
+          type: string
+        code:
+          type: string
+        token:
+          type: string
+          readOnly: true
+        invite_code:
+          type: string
+          readOnly: true
+      required:
+      - code
+      - invite_code
+      - phone_number
+      - token
+    InviteCode:
+      type: object
+      properties:
+        invite_code:
+          type: string
+      required:
+      - invite_code
+    PhoneNumber:
+      type: object
+      properties:
+        phone_number:
+          type: string
+      required:
+      - phone_number
+    UserProfile:
+      type: object
+      properties:
+        phone_number:
+          type: string
+          maxLength: 15
+        invite_code:
+          type: string
+          maxLength: 6
+        activated_invite_code:
+          type: string
+          nullable: true
+          maxLength: 6
+        invited_users:
+          type: string
+          readOnly: true
+        inviter:
+          type: string
+          readOnly: true
+      required:
+      - invited_users
+      - inviter
+      - phone_number
+  securitySchemes:
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
